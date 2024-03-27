@@ -1,7 +1,9 @@
 <script>
     export let title = ''
     export let desc = ''
+    export let date = ''
     export let post = null
+    import bird from '$lib/assets/liverpool/bird.jpg'
 
     let checked = false
 
@@ -15,20 +17,26 @@
     <button on:click={handleCheck}>
         <h2 class='title'>{title}</h2>
     </button>
-        <p>{desc}</p>
-        <img alt='img' />
+    <p class="date">{date}</p>
+    {#if !checked}
+    <p>{desc}</p>
+    <img class='cover-image' alt='img' src={bird} />
+    {:else}
     <div class='post'>
-        {post}
+        <svelte:component this={post} />
     </div>
+    {/if}
 </div>
 
 <style>
     .container {
         padding: .5rem;
-        pointer-events: none;
     }
     .container:hover{
         background-color: rgb(194, 194, 194);
+    }
+    .check:checked + .container:hover{
+        background: none;
     }
     .check {
         display: none;
@@ -44,8 +52,10 @@
         margin: 0;
         pointer-events: auto;
     }
-    .title {
-        margin-bottom: .5rem;
+    .date {
+        font-style: italic;
+        font-weight: bold;
+        color: red;
     }
     button:hover .title {
         cursor: pointer;
@@ -55,7 +65,10 @@
         height: 0;
         overflow: hidden;
     }
-
+    .cover-image {
+        max-width: 40vw;
+        max-height: 40vh;
+    }
     .check:checked + .container .post {
         height: fit-content;
     }
